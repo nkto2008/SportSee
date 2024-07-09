@@ -1,0 +1,59 @@
+@import "../colors.scss";
+
+.card-info {
+    background-color: $background-window;
+    flex: 1;
+    border-radius: 5px;
+    padding: 32px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+
+    .container-img {
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 6px;
+
+        &.energy {
+            background-color: $calories-back;
+        }
+
+        &.proteins {
+            background-color: $protein-back;
+        }
+
+        &.carbs {
+            background-color: $gludides-back;
+        }
+
+        &.fats {
+            background-color: $lipides-back;
+        }
+
+        .logo {
+            height: 20px;
+        }
+    }
+
+    .details {
+        h2 {
+            font-family: "Roboto", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 900;
+            font-style: normal;
+            color: $font-grey;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        p {
+            font-size: 14px;
+            color: $font-light-grey;
+        }
+    }
+
+}

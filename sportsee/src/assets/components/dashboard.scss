@@ -1,0 +1,104 @@
+@import "../colors.scss";
+
+#profile {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 50px 100px;
+  overflow: hidden;
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+
+    h1,
+    span {
+      font-size: 48px;
+      font-family: "Roboto", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 600;
+      font-style: normal;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    span {
+      color: $calories;
+    }
+
+    p {
+      font-family: "Roboto", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 400;
+      font-style: normal;
+    }
+  }
+
+  .container {
+    height: calc(100% - 150px);
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+
+    .wrapper-left {
+      flex: 3;
+      gap: 20px;
+      display: flex;
+      flex-direction: column;
+
+      .wrap-activity {
+        height: 55%;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .wrap {
+        height: 45%;
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+
+        .chart-container {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          border-radius: 5px;
+        }
+      }
+    }
+
+    .wrapper-right {
+      flex: 1;
+      gap: 20px;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+@keyframes ellipsis {
+  0% {
+    content: '';
+  }
+
+  25% {
+    content: '.';
+  }
+
+  50% {
+    content: '..';
+  }
+
+  75% {
+    content: '...';
+  }
+
+  100% {
+    content: '';
+  }
+}

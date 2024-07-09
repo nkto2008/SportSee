@@ -1,0 +1,23 @@
+.performance-radar-chart {
+    background-color: #282D30;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  
+    .recharts-wrapper {
+      flex: 1;
+    }
+  
+    .recharts-polar-angle-axis-tick-value {
+      font-size: 12px;
+      color: white;
+    }
+  
+    .recharts-radar {
+      fill: #E60000;
+      stroke: #E60000;
+      fill-opacity: 0.7;
+    }
+  }
+  

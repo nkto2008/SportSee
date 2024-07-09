@@ -1,0 +1,65 @@
+@import "../colors.scss";
+
+.activity-chart {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 32px 32px 0 32px;
+  flex: 1;
+  background-color: $background-window;
+  border-radius: 5px;
+
+  h2 {
+    text-align: left;
+    color: #20253A;
+    font-size: 15px;
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 900;
+    font-style: normal;
+  }
+
+  .recharts-wrapper {
+    flex: 1;
+  }
+
+  .recharts-cartesian-axis-tick-value {
+    font-size: 12px;
+    color: #9B9EAC;
+  }
+
+  .custom-tooltip {
+    background: #E60000;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 10px;
+  }
+
+  .custom-legend {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 50px;
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-right: 20px;
+      font-size: 14px;
+      color: #74798C;
+    }
+
+    .legend-color {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      margin-right: 5px;
+      border-radius: 50%;
+    }
+  }
+
+  .recharts-legend-item {
+    color: #74798C;
+    font-size: 12px !important;
+  }
+}

@@ -1,0 +1,22 @@
+@import "../colors.scss";
+
+#horizontal-navbar {
+    width: 100%;
+    height: 100px;
+    background-color: $black;
+    padding: 10px 30px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+    ul {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        justify-content: space-between;
+        align-items: center;
+
+        a {
+            color: white;
+            font-size: 24px;
+        }
+    }
+}

@@ -1,27 +1,26 @@
 .session-duration-chart {
-    background-color: #E60000;
-    border-radius: 5px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  
-    h2 {
-      color: white;
-      font-size: 15px;
-      margin-bottom: 20px;
-    }
-  
-    .recharts-wrapper {
-      flex: 1;
-    }
-  
-    .custom-tooltip {
-      background: white;
-      color: #E60000;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 10px;
-    }
+  background-color: #E60000;
+  border-radius: 5px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  h2 {
+    color: white;
+    font-size: 15px;
+    margin-bottom: 20px;
   }
-  
+
+  .recharts-wrapper {
+    flex: 1;
+  }
+
+  .custom-tooltip {
+    background: white;
+    color: #E60000;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 10px;
+  }
+}

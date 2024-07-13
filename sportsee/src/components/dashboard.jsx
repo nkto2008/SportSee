@@ -7,8 +7,10 @@ import PerformanceRadarChart from './PerformanceRadarChart';
 import ScoreChart from './ScoreChart';
 import '../assets/components/dashboard.scss';
 import CardInfo from './CardInfo';
+import { useParams } from 'react-router-dom';
 
 function Dashboard() {
+    const { userId } = useParams();
     const [userData, setUserData] = useState(null);
     const [activityData, setActivityData] = useState(null);
     const [averageSessionsData, setAverageSessionsData] = useState(null);
@@ -19,7 +21,6 @@ function Dashboard() {
     useEffect(() => {
         const loadData = async () => {
             try {
-                const userId = 13; //Rendre cette partie dynamique. ( A voir)
                 const [user, activity, averageSessions, performance] = await Promise.all([
                     fetchUserData(userId),
                     fetchUserActivity(userId),

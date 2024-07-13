@@ -36,11 +36,15 @@ function Dashboard() {
                 console.error("Erreur lors de la récupération des données:", err);
                 setError("Impossible de récupérer les données de l'API. Affichage des données de démonstration.");
 
-                // Utilisation des mocks en cas d'erreur
-                setUserData(mockUserData);
-                setActivityData(mockActivityData);
-                setAverageSessionsData(mockAverageSessionsData);
-                setPerformanceData(mockPerformanceData);
+                const user = mockUserData.find(user => user.id === parseInt(userId));
+                const activity = mockActivityData.find(data => data.userId === parseInt(userId));
+                const averageSessions = mockAverageSessionsData.find(data => data.userId === parseInt(userId));
+                const performance = mockPerformanceData.find(data => data.userId === parseInt(userId));
+
+                setUserData(user || mockUserData[0]);
+                setActivityData(activity ? activity.sessions : mockActivityData[0].sessions);
+                setAverageSessionsData(averageSessions ? averageSessions.sessions : mockAverageSessionsData[0].sessions);
+                setPerformanceData(performance || mockPerformanceData[0]);
             } finally {
                 setIsLoading(false);
             }

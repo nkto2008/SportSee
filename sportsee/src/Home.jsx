@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { fetchUserData } from './service/api';
 import { Link } from 'react-router-dom';
 import './assets/components/home.scss';
+import { mockUserData } from './mock/data';
+
 
 function Home() {
     const [users, setUsers] = useState([]);
@@ -15,6 +17,7 @@ function Home() {
                 setUsers(formattedUsers);
             } catch (err) {
                 console.error('Erreur lors de la récupération des utilisateurs:', err);
+                setUsers(mockUserData);
             }
         };
 

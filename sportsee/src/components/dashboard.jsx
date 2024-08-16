@@ -1,114 +1,79 @@
 import React, { useState, useEffect } from 'react';
-import { fetchUserData, fetchUserActivity, fetchUserAverageSessions, fetchUserPerformance } from '../service/api';
-import { mockUserData, mockActivityData, mockAverageSessionsData, mockPerformanceData } from '../mock/data';
+import { useParams } from 'react-router-dom';
+import { fetchAllUserData } from '../service/api';
 import ActivityChart from './ActivityChart';
 import SessionDurationChart from './SessionDurationChart';
 import PerformanceRadarChart from './PerformanceRadarChart';
 import ScoreChart from './ScoreChart';
 import '../assets/components/dashboard.scss';
 import CardInfo from './CardInfo';
-import { useParams } from 'react-router-dom';
 
 function Dashboard() {
     const { userId } = useParams();
     const [userData, setUserData] = useState(null);
-    const [activityData, setActivityData] = useState(null);
-    const [averageSessionsData, setAverageSessionsData] = useState(null);
-    const [performanceData, setPerformanceData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const loadData = async () => {
             try {
-                const [user, activity, averageSessions, performance] = await Promise.all([
-                    fetchUserData(userId),
-                    fetchUserActivity(userId),
-                    fetchUserAverageSessions(userId),
-                    fetchUserPerformance(userId)
-                ]);
-
-                setUserData(user.data);
-                setActivityData(activity);
-                setAverageSessionsData(averageSessions);
-                setPerformanceData(performance);
+                const data = await fetchAllUserData(userId);
+                setUserData(data);
             } catch (err) {
                 console.error("Erreur lors de la récupération des données:", err);
-                setError("Impossible de récupérer les données de l'API. Affichage des données de démonstration.");
-
-                const user = mockUserData.find(user => user.id === parseInt(userId));
-                const activity = mockActivityData.find(data => data.userId === parseInt(userId));
-                const averageSessions = mockAverageSessionsData.find(data => data.userId === parseInt(userId));
-                const performance = mockPerformanceData.find(data => data.userId === parseInt(userId));
-
-                setUserData(user || mockUserData[0]);
-                setActivityData(activity ? activity.sessions : mockActivityData[0].sessions);
-                setAverageSessionsData(averageSessions ? averageSessions.sessions : mockAverageSessionsData[0].sessions);
-                setPerformanceData(performance || mockPerformanceData[0]);
+                setError("Impossible de récupérer les données. Veuillez réessayer plus tard.");
             } finally {
                 setIsLoading(false);
             }
         };
 
         loadData();
-    }, []);
+    }, [userId]);
 
-    if (isLoading) {
-        return <div>Chargement...</div>;
-    }
+    if (isLoading) return <div>Chargement...</div>;
+    if (error) return <div>{error}</div>;
+    if (!userData) return <div>Aucune donnée utilisateur disponible.</div>;
 
-    if (!userData) {
-        return <div>Aucune donnée utilisateur disponible.</div>;
-    }
-/*
-    return (
-        <div className="dashboard">
-            {error && <div className="error-message">{error}</div>}
-            <h1>Bonjour {userData.userInfos?.firstName || 'Utilisateur'}</h1>
+    const { userData: user, activityData, averageSessionsData, performanceData } = userData;
 
-            <ActivityChart data={activityData} />
-            <SessionDurationChart data={averageSessionsData} />
-            <PerformanceRadarChart data={performanceData?.data} />
-            <ScoreChart score={userData.todayScore || userData.score} />
-
-            <div>Calories: {userData.keyData?.calorieCount || 'N/A'} kCal</div>
-            <div>Protéines: {userData.keyData?.proteinCount || 'N/A'} g</div>
-            <div>Glucides: {userData.keyData?.carbohydrateCount || 'N/A'} g</div>
-            <div>Lipides: {userData.keyData?.lipidCount || 'N/A'} g</div>
-        </div>
-    );*/
     return (
         <div id="profile">
             <div className='header'>
-                <h1>Bonjour <span className='name'>{userData.userInfos?.firstName}</span></h1>
+                <h1>Bonjour <span className='name'>{user.userInfos.firstName}</span></h1>
                 <p>Félicitation ! Vous avez explosé vos objectifs hier 👏</p>
             </div>
             <div className='container'>
                 <div className='wrapper-left'>
                     <div className='wrap-activity'>
-                        <ActivityChart data={activityData} />
+                        {activityData && activityData.sessions && (
+                            <ActivityChart data={activityData.sessions} />
+                        )}
                     </div>
                     <div className='wrap'>
                         <div className='chart-container'>
-                            <SessionDurationChart data={averageSessionsData} />
+                            {averageSessionsData && averageSessionsData.sessions && (
+                                <SessionDurationChart data={averageSessionsData.sessions} />
+                            )}
                         </div>
                         <div className='chart-container'>
-                            <PerformanceRadarChart data={performanceData?.data} />
+                            {performanceData && performanceData.data && (
+                                <PerformanceRadarChart data={performanceData.data} />
+                            )}
                         </div>
                         <div className='chart-container'>
-                            <ScoreChart score={userData.todayScore} />
+                            <ScoreChart score={user.getScore()} />
                         </div>
                     </div>
                 </div>
                 <div className='wrapper-right'>
-                    <CardInfo type="Calories" value={userData.keyData?.calorieCount} />
-                    <CardInfo type="Protéines" value={userData.keyData.proteinCount} />
-                    <CardInfo type="Glucides" value={userData.keyData.carbohydrateCount} />
-                    <CardInfo type="Lipides" value={userData.keyData.lipidCount} />
+                    <CardInfo type="Calories" value={user.keyData.calorieCount} />
+                    <CardInfo type="Protéines" value={user.keyData.proteinCount} />
+                    <CardInfo type="Glucides" value={user.keyData.carbohydrateCount} />
+                    <CardInfo type="Lipides" value={user.keyData.lipidCount} />
                 </div>
             </div>
         </div>
     );
-};
+}
 
 export default Dashboard;

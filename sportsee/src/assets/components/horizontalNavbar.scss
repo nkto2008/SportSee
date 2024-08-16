@@ -6,6 +6,7 @@
     background-color: $black;
     padding: 10px 30px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    z-index: 2;
 
     ul {
         display: flex;

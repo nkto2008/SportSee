@@ -17,11 +17,14 @@ function Dashboard() {
     useEffect(() => {
         const loadData = async () => {
             try {
+                setIsLoading(true);
                 const data = await fetchAllUserData(userId);
                 setUserData(data);
+                setError(null);
             } catch (err) {
                 console.error("Erreur lors de la récupération des données:", err);
-                setError("Impossible de récupérer les données. Veuillez réessayer plus tard.");
+                setError(err.message);
+                setUserData(null);
             } finally {
                 setIsLoading(false);
             }
@@ -30,9 +33,19 @@ function Dashboard() {
         loadData();
     }, [userId]);
 
-    if (isLoading) return <div>Chargement...</div>;
-    if (error) return <div>{error}</div>;
-    if (!userData) return <div>Aucune donnée utilisateur disponible.</div>;
+    if (isLoading) {
+        return <div>Chargement...</div>;
+    }
+
+    if (error || !userData) {
+
+    
+        return         <div id="profile">
+        <div className='header'>
+        {"Impossible de récupérer les données de l'utilisateur. Veuillez vérifier la connexion à l'API."}
+        </div>
+        </div>;
+    }
 
     const { userData: user, activityData, averageSessionsData, performanceData } = userData;
 
@@ -52,7 +65,7 @@ function Dashboard() {
                     <div className='wrap'>
                         <div className='chart-container'>
                             {averageSessionsData && averageSessionsData.sessions && (
-                                <SessionDurationChart data={userData.averageSessionsData.sessions} />
+                                <SessionDurationChart data={averageSessionsData.sessions} />
                             )}
                         </div>
                         <div className='chart-container'>

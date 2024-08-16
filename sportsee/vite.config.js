@@ -3,8 +3,12 @@ import react from '@vitejs/plugin-react';
 import svgr from '@svgr/rollup';
 
 export default defineConfig(({ mode }) => {
-  const useApi = mode === 'production' || process.env.USE_API === 'true';
+  const isProduction = process.env.NODE_ENV === 'production' || mode === 'production';
+  const useApi = isProduction || process.env.USE_API === 'true';
   const port = useApi ? 5173 : 5172;
+  
+  console.log('Mode:', isProduction ? 'production' : 'development');
+  console.log('USE_API:', useApi);
   
   return {
     plugins: [

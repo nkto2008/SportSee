@@ -16,7 +16,7 @@ function Home() {
                 setUsers(usersData);
             } catch (err) {
                 console.error('Erreur lors de la récupération des utilisateurs:', err);
-                setError("Impossible de charger les données utilisateur.");
+                setError("Erreur 500: Impossible de charger les données utilisateur.");
             } finally {
                 setIsLoading(false);
             }

@@ -2,11 +2,12 @@ import { UserModel, ActivityModel, AverageSessionModel, PerformanceModel } from 
 import { mockUserData, mockActivityData, mockAverageSessionsData, mockPerformanceData } from '../mock/data';
 
 const API_BASE_URL = process.env.API_BASE_URL;
+const USE_MOCKED_DATA = process.env.USE_API !== 'true';
 
 const fetchData = async (url, mockData) => {
-  if (process.env.USE_API !== 'true') {
-    console.log('Utilisation des données mock');
-    return { data: mockData };
+  if (USE_MOCKED_DATA) {
+    console.log('Utilisation des données mockées');
+    return Promise.resolve({ data: mockData });
   } else {
     console.log('Appel à l\'API réelle');
     const response = await fetch(`${API_BASE_URL}${url}`);
@@ -20,7 +21,6 @@ const fetchData = async (url, mockData) => {
 export const fetchUserData = async (userId) => {
   try {
     const data = await fetchData(`/user/${userId}`, mockUserData.find(user => user.id === parseInt(userId)));
-    console.log('Données utilisateur reçues:', data);
     return new UserModel(data.data);
   } catch (error) {
     console.error('Erreur API (utilisateur):', error);
@@ -31,7 +31,6 @@ export const fetchUserData = async (userId) => {
 export const fetchUserActivity = async (userId) => {
   try {
     const data = await fetchData(`/user/${userId}/activity`, mockActivityData.find(activity => activity.userId === parseInt(userId)));
-    console.log('Données d\'activité reçues:', data);
     return new ActivityModel(data.data);
   } catch (error) {
     console.error('Erreur API (activité):', error);
@@ -42,7 +41,6 @@ export const fetchUserActivity = async (userId) => {
 export const fetchUserAverageSessions = async (userId) => {
   try {
     const data = await fetchData(`/user/${userId}/average-sessions`, mockAverageSessionsData.find(session => session.userId === parseInt(userId)));
-    console.log('Données de sessions moyennes reçues:', data);
     return new AverageSessionModel(data.data);
   } catch (error) {
     console.error('Erreur API (sessions moyennes):', error);
@@ -53,7 +51,6 @@ export const fetchUserAverageSessions = async (userId) => {
 export const fetchUserPerformance = async (userId) => {
   try {
     const data = await fetchData(`/user/${userId}/performance`, mockPerformanceData.find(performance => performance.userId === parseInt(userId)));
-    console.log('Données de performance reçues:', data);
     return new PerformanceModel(data.data);
   } catch (error) {
     console.error('Erreur API (performance):', error);

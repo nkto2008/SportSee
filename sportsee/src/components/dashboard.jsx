@@ -52,7 +52,7 @@ function Dashboard() {
                     <div className='wrap'>
                         <div className='chart-container'>
                             {averageSessionsData && averageSessionsData.sessions && (
-                                <SessionDurationChart data={averageSessionsData.sessions} />
+                                <SessionDurationChart data={userData.averageSessionsData.sessions} />
                             )}
                         </div>
                         <div className='chart-container'>

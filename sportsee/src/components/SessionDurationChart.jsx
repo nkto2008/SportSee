@@ -17,15 +17,27 @@ const CustomTooltip = ({ active, payload }) => {
 function SessionDurationChart ({ data }) {
     const days = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
 
+    console.log("Données reçues dans SessionDurationChart:", data);
+
+    if (!data || !Array.isArray(data) || data.length === 0) {
+        return <div>Aucune donnée de session disponible</div>;
+    }
+
+    const formattedData = data.map((session, index) => ({
+        ...session,
+        day: days[index]
+    }));
+
+    console.log("Données formatées:", formattedData);
+
     return (
         <div className="session-duration-chart">
             <h2>Durée moyenne des sessions</h2>
             <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={data}>
+                <LineChart data={formattedData}>
                     <CartesianGrid vertical={false} horizontal={false} />
                     <XAxis
                         dataKey="day"
-                        tickFormatter={(tick) => days[tick - 1]}
                         tick={{ fill: 'white', fontSize: 12 }}
                         axisLine={false}
                         tickLine={false}

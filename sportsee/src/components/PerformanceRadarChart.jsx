@@ -7,12 +7,31 @@ function PerformanceRadarChart({ data }) {
         return <div>Aucune donnée de performance disponible</div>;
     }
 
-    // Les données sont déjà formatées dans le modèle, donc nous n'avons pas besoin de les reformater ici
-    const formattedData = data.map(item => ({
-        subject: item.subject,
-        A: item.A,
-        fullMark: item.fullMark
-    }));
+    const translationMap = {
+        'cardio': 'Cardio',
+        'energy': 'Énergie',
+        'endurance': 'Endurance',
+        'strength': 'Force',
+        'speed': 'Vitesse',
+        'intensity': 'Intensité'
+    };
+
+    const orderMap = {
+        'Intensité': 1,
+        'Vitesse': 2,
+        'Force': 3,
+        'Endurance': 4,
+        'Énergie': 5,
+        'Cardio': 6
+    };
+
+    const formattedData = data
+        .map(item => ({
+            subject: translationMap[item.subject] || item.subject,
+            A: item.A,
+            fullMark: item.fullMark
+        }))
+        .sort((a, b) => orderMap[a.subject] - orderMap[b.subject]);
 
     return (
         <div className="performance-radar-chart">
